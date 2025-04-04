@@ -1,0 +1,10 @@
+# Ignore artifacts:
+build
+out
+dist
+node_modules
+.next
+public
+
+# Ignore all markdown files:
+*.md
