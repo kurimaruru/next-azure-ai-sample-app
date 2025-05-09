@@ -2,14 +2,19 @@ import { useState, useEffect } from 'react';
 
 export const useTaskManager = () => {
   const [tasks, setTasks] = useState(() => {
-    const savedTasks = localStorage.getItem('tasks');
-    return savedTasks ? JSON.parse(savedTasks) : [];
+    if (typeof window !== 'undefined') {
+      const savedTasks = localStorage.getItem('tasks');
+      return savedTasks ? JSON.parse(savedTasks) : [];
+    }
+    return [];
   });
 
   const [filter, setFilter] = useState('all'); // filterの追加
 
   useEffect(() => {
-    localStorage.setItem('tasks', JSON.stringify(tasks));
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('tasks', JSON.stringify(tasks));
+    }
   }, [tasks]);
 
   const addTask = (title, description = '', dueDate = '') => {
