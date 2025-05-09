@@ -5,6 +5,7 @@ import { useTaskManager } from '../hooks/useTaskManager';
 import TaskForm from '../components/TaskForm';
 import TaskList from '../components/TaskList';
 import TaskFilters from '../components/TaskFilters'; // 追加
+import AITaskHelper from "../components/TaskHelper"; // 追加
 
 const App = () => {
   const {
@@ -43,6 +44,7 @@ const App = () => {
         onDelete={deleteTask}
         onUpdate={updateTask}
       />
+      <AITaskHelper filteredTasks={filteredTasks} />
     </div>
   );
 };
