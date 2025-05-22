@@ -62,6 +62,20 @@ export const useTaskManager = () => {
     return true;
   });
 
+  const addTaskByAI = (tasksCreatedByAi) => {
+    const newTask = tasksCreatedByAi.map((task) => {
+      return {
+        id: self.crypto.randomUUID(),
+        title: task?.title || '',
+        description: task?.description || '',
+        dueDate: task?.dueDate || '',
+        completed: false,
+      }
+    });
+
+    setTasks([...tasks, ...newTask]);
+  };
+
   return {
     addTask,
     tasks,
@@ -73,5 +87,6 @@ export const useTaskManager = () => {
     setFilter,
     markAll,
     clearCompleted,
+    addTaskByAI
   };
 };

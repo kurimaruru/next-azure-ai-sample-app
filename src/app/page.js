@@ -20,6 +20,7 @@ const App = () => {
     setFilter,
     markAll,
     clearCompleted,
+    addTaskByAI
   } = useTaskManager();
   return (
     <div className="mx-auto flex max-w-2xl flex-col items-center rounded-lg bg-white p-4 shadow">
@@ -44,7 +45,7 @@ const App = () => {
         onDelete={deleteTask}
         onUpdate={updateTask}
       />
-      <AITaskHelper filteredTasks={filteredTasks} />
+      <AITaskHelper filteredTasks={filteredTasks} addTaskByAI={addTaskByAI} />
     </div>
   );
 };

@@ -1,18 +1,35 @@
 import React, { useState } from "react";
 import { useAiTask } from "../hooks/useAiTask";
 
-const AITaskHelper = ({ filteredTasks }) => {
+const AITaskHelper = ({ filteredTasks, addTaskByAI }) => {
   const [input, setInput] = useState("");
   const [result, setResult] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const { DescriptionTaskByAi } = useAiTask(setResult, setIsLoading);
+  const { DescriptionTaskByAi, createTasksByAi } = useAiTask(setResult, setIsLoading);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!input.trim()) return;
 
     DescriptionTaskByAi(input, filteredTasks);
+  };
+
+
+  const [toCreateTasks, setToCreateTasks] = useState("");
+  const [isCreatingTasks, setIsCreatingTasks] = useState(false);
+  const handleCreateTasksSubmit = async(e) => {
+    e.preventDefault();
+    if (!toCreateTasks.trim()) return;
+    try {
+      setIsCreatingTasks(true);
+      const tasks = await createTasksByAi(toCreateTasks);
+      console.log(tasks);
+      addTaskByAI(tasks);
+      setToCreateTasks("");
+    } finally {
+      setIsCreatingTasks(false);
+    }
   };
 
   return (
@@ -34,6 +51,24 @@ const AITaskHelper = ({ filteredTasks }) => {
             disabled={isLoading}
           >
             {isLoading ? "処理中..." : "送信"}
+          </button>
+        </div>
+      </form>
+      <form onSubmit={handleCreateTasksSubmit} className="mb-4">
+        <div className="flex">
+          <input
+            type="text"
+            value={toCreateTasks}
+            onChange={(e) => setToCreateTasks(e.target.value)}
+            placeholder="作成したいタスクを入力してください..."
+            className="flex-grow p-2 border rounded-l"
+          />
+          <button
+            type="submit"
+            className="bg-blue-500 text-white px-4 py-2 rounded-r"
+            disabled={isCreatingTasks}
+          >
+            {isCreatingTasks ? "作成中..." : "AIタスク作成"}
           </button>
         </div>
       </form>
